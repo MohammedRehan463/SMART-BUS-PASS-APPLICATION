@@ -1,0 +1,24 @@
+{
+  "client": "Thunder Client",
+  "environmentName": "Smart Bus Pass API",
+  "dateExported": "2024-01-18T10:00:00.000Z",
+  "version": "1.0",
+  "variables": [
+    {
+      "name": "token",
+      "value": ""
+    },
+    {
+      "name": "adminToken",
+      "value": ""
+    },
+    {
+      "name": "depotToken",
+      "value": ""
+    },
+    {
+      "name": "applicationId",
+      "value": ""
+    }
+  ]
+}

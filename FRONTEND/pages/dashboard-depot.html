@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depot Officer Dashboard - Smart Bus Pass</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dashboard-depot">
+    <button class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bus"></i>
+                <h2>Smart Bus Pass</h2>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" class="active" data-tab="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-tab="pending">
+                        <i class="fas fa-hourglass-half"></i>
+                        Admin Approved
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-tab="processed">
+                        <i class="fas fa-check-circle"></i>
+                        Payment Requested
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-tab="completed">
+                        <i class="fas fa-clipboard-check"></i>
+                        Completed
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-tab="history">
+                        <i class="fas fa-history"></i>
+                        History
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-tab="profile">
+                        <i class="fas fa-user"></i>
+                        Profile
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <div class="user-details">
+                        <p class="user-name" id="user-name">Depot Officer Name</p>
+                        <p class="user-role">Depot Officer</p>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <!-- Dashboard Tab -->
+            <div class="tab-content active" id="dashboard-tab">
+                <div class="page-header">
+                    <h1 class="page-title">Depot Officer Dashboard</h1>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Admin Approved</span>
+                            <div class="stat-card-icon">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                        </div>
+                        <h2 class="stat-card-value" id="admin-approved-count">0</h2>
+                        <p class="stat-card-description">Applications to review</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Payment Requested</span>
+                            <div class="stat-card-icon">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                        </div>
+                        <h2 class="stat-card-value" id="payment-requested-count">0</h2>
+                        <p class="stat-card-description">Waiting for payment</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Completed</span>
+                            <div class="stat-card-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <h2 class="stat-card-value" id="completed-count">0</h2>
+                        <p class="stat-card-description">Passes issued</p>
+                    </div>
+                </div>
+                
+                <div class="quick-actions card">
+                    <h2 class="card-title">Recent Applications</h2>
+                    <div class="table-responsive">
+                        <table class="data-table" id="recent-applications">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Type</th>
+                                    <th>Route</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-applications-body">
+                                <!-- Recent applications will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-recent" style="text-align: center; padding: 2rem; display: none;">
+                        <i class="fas fa-folder-open" style="font-size: 3rem; color: #7f8c8d; margin-bottom: 1rem;"></i>
+                        <h2>No Recent Applications</h2>
+                        <p>New applications will appear here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Approved Tab -->
+            <div class="tab-content" id="pending-tab">
+                <div class="page-header">
+                    <h1 class="page-title">Admin Approved Applications</h1>
+                </div>
+                
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="data-table" id="admin-approved-applications">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Type</th>
+                                    <th>Route</th>
+                                    <th>Duration</th>
+                                    <th>Admin</th>
+                                    <th>Approved On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-approved-applications-body">
+                                <!-- Admin approved applications will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-admin-approved" style="text-align: center; padding: 2rem; display: none;">
+                        <i class="fas fa-check-circle" style="font-size: 3rem; color: #7f8c8d; margin-bottom: 1rem;"></i>
+                        <h2>No Admin Approved Applications</h2>
+                        <p>Applications approved by admins will appear here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Requested Tab -->
+            <div class="tab-content" id="processed-tab">
+                <div class="page-header">
+                    <h1 class="page-title">Payment Requested</h1>
+                </div>
+                
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="data-table" id="payment-requested-applications">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Type</th>
+                                    <th>Route</th>
+                                    <th>Duration</th>
+                                    <th>Requested On</th>
+                                    <th>Payment Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payment-requested-applications-body">
+                                <!-- Payment requested applications will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-payment-requested" style="text-align: center; padding: 2rem; display: none;">
+                        <i class="fas fa-credit-card" style="font-size: 3rem; color: #7f8c8d; margin-bottom: 1rem;"></i>
+                        <h2>No Payment Requests</h2>
+                        <p>Applications with payment requests will appear here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Completed Tab -->
+            <div class="tab-content" id="completed-tab">
+                <div class="page-header">
+                    <h1 class="page-title">Completed Applications</h1>
+                </div>
+                
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="data-table" id="completed-applications">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Type</th>
+                                    <th>Route</th>
+                                    <th>Duration</th>
+                                    <th>Payment Date</th>
+                                    <th>Pass Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="completed-applications-body">
+                                <!-- Completed applications will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-completed" style="text-align: center; padding: 2rem; display: none;">
+                        <i class="fas fa-clipboard-check" style="font-size: 3rem; color: #7f8c8d; margin-bottom: 1rem;"></i>
+                        <h2>No Completed Applications</h2>
+                        <p>Completed applications will appear here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- History Tab -->
+            <div class="tab-content" id="history-tab">
+                <div class="page-header">
+                    <h1 class="page-title">Activity History</h1>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Your Activities</h2>
+                    
+                    <div class="table-responsive">
+                        <table class="data-table" id="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                    <th>Student</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-body">
+                                <!-- History will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-history" style="text-align: center; padding: 2rem; display: none;">
+                        <i class="fas fa-history" style="font-size: 3rem; color: #7f8c8d; margin-bottom: 1rem;"></i>
+                        <h2>No Activity History</h2>
+                        <p>Your activity history will appear here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Tab -->
+            <div class="tab-content" id="profile-tab">
+                <div class="page-header">
+                    <h1 class="page-title">My Profile</h1>
+                </div>
+                
+                <div class="card">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <i class="fas fa-bus"></i>
+                        </div>
+                        
+                        <div class="profile-details">
+                            <h2 id="profile-name">Depot Officer Name</h2>
+                            <p id="profile-email">depot@example.com</p>
+                            <p><strong>Role:</strong> Depot Officer</p>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button class="button" id="change-password-btn">
+                            <i class="fas fa-key"></i> Change Password
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Application Review Modal -->
+    <div class="modal" id="review-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Review Application</h2>
+                <button class="modal-close" id="close-review-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="student-details mb-2">
+                    <p><strong>Student:</strong> <span id="modal-student-name"></span></p>
+                    <p><strong>Email:</strong> <span id="modal-student-email"></span></p>
+                    <p><strong>Application Type:</strong> <span id="modal-application-type"></span></p>
+                    <p><strong>Route:</strong> <span id="modal-route"></span></p>
+                    <p><strong>College ID:</strong> <span id="modal-college-id"></span></p>
+                    <p><strong>Duration:</strong> <span id="modal-duration"></span> months</p>
+                    <p><strong>Admin Approved On:</strong> <span id="modal-approved-date"></span></p>
+                </div>
+                
+                <div class="id-proof-preview text-center mb-2" style="position: relative;">
+                    <h3>ID Proof Document (Admin Approved)</h3>
+                    <img id="modal-id-proof" alt="ID Proof" style="max-width: 100%; max-height: 300px; border: 1px solid #ddd; border-radius: 4px;">
+                    <!-- Stamp/Signature overlay on left corner -->
+                    <img id="modal-stamp-overlay" alt="Stamp/Signature" style="position: absolute; top: 20px; left: 20px; width: 100px; height: 100px; display: none; pointer-events: none; opacity: 0.85;">
+                </div>
+                
+                <div class="depot-actions">
+                    <div class="form-group">
+                        <label for="pricing">Pass Pricing</label>
+                        <select id="pricing" required>
+                            <option value="">Select Price Category</option>
+                            <option value="1month">1 Month = ₹200</option>
+                            <option value="3months">3 Months = ₹500</option>
+                            <option value="6months">6 Months = ₹1000</option>
+                            <option value="1year">1 Year = ₹1800</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    
+                    <div id="custom-price-group" class="form-group" style="display: none;">
+                        <label for="custom-price">Custom Price (₹ per month)</label>
+                        <input type="number" id="custom-price" min="100" step="50" value="200">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pass-notes">Additional Notes (Optional)</label>
+                        <textarea id="pass-notes" rows="3" placeholder="Any special conditions or notes"></textarea>
+                    </div>
+                    
+                    <!-- Modify Document option removed as requested -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="button" id="cancel-review">Cancel</button>
+                <button class="button btn-primary" id="request-payment">Request Payment</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- View Pass Modal -->
+    <div class="modal" id="pass-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Student Bus Pass</h2>
+                <button class="modal-close" id="close-pass-modal">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <div id="pass-container" class="pass-preview">
+                    <!-- Pass will be rendered here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="button" id="close-pass-view">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Change Password Modal -->
+    <div class="modal" id="password-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Change Password</h2>
+                <button class="modal-close" id="close-password-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="change-password-form">
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password-change">New Password</label>
+                        <input type="password" id="new-password-change" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-new-password">Confirm New Password</label>
+                        <input type="password" id="confirm-new-password" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="button" id="cancel-password-change">Cancel</button>
+                <button class="button btn-primary" id="save-new-password">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard-common.js"></script>
+    <script src="../js/dashboard-depot.js"></script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "Smart Bus Pass API",
+  "dateExported": "2024-01-18T10:00:00.000Z",
+  "version": "1.1",
+  "folders": [
+    {
+      "name": "Auth",
+      "containerId": "",
+      "created": "2024-01-18T10:00:00.000Z",
+      "sortNum": 10000,
+      "requests": [
+        {
+          "name": "Register",
+          "url": "localhost:3000/api/auth/register",
+          "method": "POST",
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"name\": \"Test Student\",\n  \"email\": \"student@test.com\",\n  \"password\": \"test123\",\n  \"role\": \"student\",\n  \"securityQuestion\": \"Your pet name?\",\n  \"securityAnswer\": \"Max\"\n}"
+          }
+        },
+        {
+          "name": "Login",
+          "url": "localhost:3000/api/auth/login",
+          "method": "POST",
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"email\": \"student@test.com\",\n  \"password\": \"test123\"\n}"
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "url": "localhost:3000/api/auth/forgot-password",
+          "method": "POST",
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"email\": \"student@test.com\",\n  \"securityQuestion\": \"Your pet name?\",\n  \"securityAnswer\": \"Max\"\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "containerId": "",
+      "created": "2024-01-18T10:00:00.000Z",
+      "sortNum": 20000,
+      "requests": [
+        {
+          "name": "Get Current User",
+          "url": "localhost:3000/api/users/me",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Update Profile",
+          "url": "localhost:3000/api/users/me",
+          "method": "PUT",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"name\": \"Updated Name\"\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Applications",
+      "containerId": "",
+      "created": "2024-01-18T10:00:00.000Z",
+      "sortNum": 30000,
+      "requests": [
+        {
+          "name": "Submit Application",
+          "url": "localhost:3000/api/applications",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "type": "formdata",
+            "raw": "",
+            "form": [
+              {
+                "name": "applicationType",
+                "value": "new"
+              },
+              {
+                "name": "route",
+                "value": "city-central"
+              },
+              {
+                "name": "collegeId",
+                "value": "12345"
+              },
+              {
+                "name": "duration",
+                "value": "3"
+              }
+            ],
+            "files": [
+              {
+                "name": "idProof",
+                "value": "files/sample-id.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get Application",
+          "url": "localhost:3000/api/applications/{{applicationId}}",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Get Application Status",
+          "url": "localhost:3000/api/applications/status/{{applicationId}}",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "containerId": "",
+      "created": "2024-01-18T10:00:00.000Z",
+      "sortNum": 40000,
+      "requests": [
+        {
+          "name": "Get Pending Applications",
+          "url": "localhost:3000/api/admin/pending",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{adminToken}}"
+            }
+          ]
+        },
+        {
+          "name": "Approve Application",
+          "url": "localhost:3000/api/admin/approve/{{applicationId}}",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{adminToken}}"
+            }
+          ],
+          "body": {
+            "type": "formdata",
+            "raw": "",
+            "files": [
+              {
+                "name": "stampedDocument",
+                "value": "files/stamped-id.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Reject Application",
+          "url": "localhost:3000/api/admin/reject/{{applicationId}}",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{adminToken}}"
+            }
+          ],
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"rejectionReason\": \"Invalid ID proof provided\"\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Depot",
+      "containerId": "",
+      "created": "2024-01-18T10:00:00.000Z",
+      "sortNum": 50000,
+      "requests": [
+        {
+          "name": "Get Admin Approved Applications",
+          "url": "localhost:3000/api/depot/admin-approved",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{depotToken}}"
+            }
+          ]
+        },
+        {
+          "name": "Request Payment",
+          "url": "localhost:3000/api/depot/request-payment/{{applicationId}}",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{depotToken}}"
+            }
+          ],
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"priceCategory\": \"student-city\",\n  \"price\": 150,\n  \"notes\": \"Regular student pass\"\n}"
+          }
+        },
+        {
+          "name": "Generate Pass",
+          "url": "localhost:3000/api/depot/generate-pass/{{applicationId}}",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{depotToken}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Student",
+      "containerId": "",
+      "created": "2024-01-18T10:00:00.000Z",
+      "sortNum": 60000,
+      "requests": [
+        {
+          "name": "Get Current Application",
+          "url": "localhost:3000/api/student/application",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Get Application History",
+          "url": "localhost:3000/api/student/history",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Get Active Pass",
+          "url": "localhost:3000/api/student/pass",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "containerId": "",
+      "created": "2024-01-18T10:00:00.000Z",
+      "sortNum": 70000,
+      "requests": [
+        {
+          "name": "Process Payment",
+          "url": "localhost:3000/api/payments/process/{{applicationId}}",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"paymentMethod\": \"phonepe\",\n  \"transactionId\": \"PAY123456\"\n}"
+          }
+        },
+        {
+          "name": "Get Payment Status",
+          "url": "localhost:3000/api/payments/status/{{applicationId}}",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

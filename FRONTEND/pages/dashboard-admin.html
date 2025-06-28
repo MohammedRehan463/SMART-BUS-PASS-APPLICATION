@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Smart Bus Pass</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dashboard-admin">
+    <button class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bus"></i>
+                <h2>Smart Bus Pass</h2>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" class="active" data-tab="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-tab="pending">
+                        <i class="fas fa-hourglass-half"></i>
+                        Pending Applications
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-tab="processed">
+                        <i class="fas fa-check-circle"></i>
+                        Processed Applications
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-tab="history">
+                        <i class="fas fa-history"></i>
+                        History
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-tab="profile">
+                        <i class="fas fa-user"></i>
+                        Profile
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="user-details">
+                        <p class="user-name" id="user-name">Admin Name</p>
+                        <p class="user-role">Administrator</p>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <!-- Dashboard Tab -->
+            <div class="tab-content active" id="dashboard-tab">
+                <div class="page-header">
+                    <h1 class="page-title">Admin Dashboard</h1>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Pending Applications</span>
+                            <div class="stat-card-icon">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                        </div>
+                        <h2 class="stat-card-value" id="pending-count">0</h2>
+                        <p class="stat-card-description">Applications awaiting review</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Approved Applications</span>
+                            <div class="stat-card-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <h2 class="stat-card-value" id="approved-count">0</h2>
+                        <p class="stat-card-description">Applications you've approved</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Rejected Applications</span>
+                            <div class="stat-card-icon">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                        </div>
+                        <h2 class="stat-card-value" id="rejected-count">0</h2>
+                        <p class="stat-card-description">Applications you've rejected</p>
+                    </div>
+                </div>
+                
+                <div class="quick-actions card">
+                    <h2 class="card-title">Recent Applications</h2>
+                    <div class="table-responsive">
+                        <table class="data-table" id="recent-applications">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Type</th>
+                                    <th>Submitted On</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-applications-body">
+                                <!-- Recent applications will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-recent" style="text-align: center; padding: 2rem; display: none;">
+                        <i class="fas fa-folder-open" style="font-size: 3rem; color: #7f8c8d; margin-bottom: 1rem;"></i>
+                        <h2>No Recent Applications</h2>
+                        <p>New applications will appear here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pending Applications Tab -->
+            <div class="tab-content" id="pending-tab">
+                <div class="page-header">
+                    <h1 class="page-title">Pending Applications</h1>
+                </div>
+                
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="data-table" id="pending-applications">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Type</th>
+                                    <th>Route</th>
+                                    <th>Submitted On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pending-applications-body">
+                                <!-- Pending applications will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-pending" style="text-align: center; padding: 2rem; display: none;">
+                        <i class="fas fa-check-circle" style="font-size: 3rem; color: #7f8c8d; margin-bottom: 1rem;"></i>
+                        <h2>No Pending Applications</h2>
+                        <p>You're all caught up!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Processed Applications Tab -->
+            <div class="tab-content" id="processed-tab">
+                <div class="page-header">
+                    <h1 class="page-title">Processed Applications</h1>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" data-tab="approved">Approved</button>
+                        <button class="tab-button" data-tab="rejected">Rejected</button>
+                    </div>
+                </div>
+                
+                <div class="tab-content active" id="approved-tab">
+                    <div class="table-responsive">
+                        <table class="data-table" id="approved-applications">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Type</th>
+                                    <th>Route</th>
+                                    <th>Approved On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="approved-applications-body">
+                                <!-- Approved applications will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-approved" style="text-align: center; padding: 2rem; display: none;">
+                        <i class="fas fa-clipboard-list" style="font-size: 3rem; color: #7f8c8d; margin-bottom: 1rem;"></i>
+                        <h2>No Approved Applications</h2>
+                        <p>Applications you approve will appear here.</p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="rejected-tab">
+                    <div class="table-responsive">
+                        <table class="data-table" id="rejected-applications">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Type</th>
+                                    <th>Route</th>
+                                    <th>Rejected On</th>
+                                    <th>Reason</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rejected-applications-body">
+                                <!-- Rejected applications will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-rejected" style="text-align: center; padding: 2rem; display: none;">
+                        <i class="fas fa-clipboard-list" style="font-size: 3rem; color: #7f8c8d; margin-bottom: 1rem;"></i>
+                        <h2>No Rejected Applications</h2>
+                        <p>Applications you reject will appear here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- History Tab -->
+            <div class="tab-content" id="history-tab">
+                <div class="page-header">
+                    <h1 class="page-title">Activity History</h1>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Your Activities</h2>
+                    
+                    <div class="table-responsive">
+                        <table class="data-table" id="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                    <th>Student</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-body">
+                                <!-- History will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-history" style="text-align: center; padding: 2rem; display: none;">
+                        <i class="fas fa-history" style="font-size: 3rem; color: #7f8c8d; margin-bottom: 1rem;"></i>
+                        <h2>No Activity History</h2>
+                        <p>Your activity history will appear here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Tab -->
+            <div class="tab-content" id="profile-tab">
+                <div class="page-header">
+                    <h1 class="page-title">My Profile</h1>
+                </div>
+                
+                <div class="card">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        
+                        <div class="profile-details">
+                            <h2 id="profile-name">Admin Name</h2>
+                            <p id="profile-email">admin@example.com</p>
+                            <p><strong>Role:</strong> Administrator</p>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button class="button" id="change-password-btn">
+                            <i class="fas fa-key"></i> Change Password
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Application Review Modal -->
+    <div class="modal" id="review-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Review Application</h2>
+                <button class="modal-close" id="close-review-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="student-details mb-2">
+                    <p><strong>Student:</strong> <span id="modal-student-name"></span></p>
+                    <p><strong>Email:</strong> <span id="modal-student-email"></span></p>
+                    <p><strong>Application Type:</strong> <span id="modal-application-type"></span></p>
+                    <p><strong>Route:</strong> <span id="modal-route"></span></p>
+                    <p><strong>College ID:</strong> <span id="modal-college-id"></span></p>
+                    <p><strong>Duration:</strong> <span id="modal-duration"></span> months</p>
+                    <p><strong>Submitted On:</strong> <span id="modal-submitted-date"></span></p>
+                </div>
+                
+                <div class="id-proof-preview text-center mb-2">
+                    <h3>ID Proof Document</h3>
+                    <img id="modal-id-proof" alt="ID Proof" class="preview-image">
+                </div>
+                
+                <div class="admin-actions">
+                    <div class="form-group">
+                        <label for="approval-action">Decision</label>
+                        <select id="approval-action">
+                            <option value="">Select Action</option>
+                            <option value="approve">Approve Application</option>
+                            <option value="reject">Reject Application</option>
+                        </select>
+                    </div>
+                    
+                    <div id="rejection-reason-group" class="form-group" style="display: none;">
+                        <label for="rejection-reason">Reason for Rejection</label>
+                        <textarea id="rejection-reason" rows="3" placeholder="Please provide a reason for rejection"></textarea>
+                    </div>
+                    
+                    <div id="stamp-signature-group" class="form-group" style="display: none;">
+                        <label>Add Stamp & Signature</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="button" id="add-stamp-btn">
+                                <i class="fas fa-stamp"></i> Add Official Stamp
+                            </button>
+                            <button class="button" id="add-signature-btn">
+                                <i class="fas fa-signature"></i> Add Signature
+                            </button>
+                        </div>
+                        <canvas id="document-canvas" width="400" height="200" style="border: 1px solid #ddd; margin-top: 1rem; display: none;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="button" id="cancel-review">Cancel</button>
+                <button class="button btn-primary" id="submit-review" disabled>Submit Review</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Change Password Modal -->
+    <div class="modal" id="password-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Change Password</h2>
+                <button class="modal-close" id="close-password-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="change-password-form">
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password-change">New Password</label>
+                        <input type="password" id="new-password-change" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-new-password">Confirm New Password</label>
+                        <input type="password" id="confirm-new-password" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="button" id="cancel-password-change">Cancel</button>
+                <button class="button btn-primary" id="save-new-password">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard-common.js"></script>
+    <script src="../js/dashboard-admin.js"></script>
+</body>
+</html>
